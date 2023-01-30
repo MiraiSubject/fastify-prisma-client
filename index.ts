@@ -1,15 +1,18 @@
 import { PrismaClient } from "@prisma/client";
 import { PrismaClientOptions } from "@prisma/client/runtime";
-import { FastifyPluginCallback } from "fastify";
+import { FastifyPluginCallback, FastifyInstance } from "fastify";
 import fp from "fastify-plugin";
 
-export type FastifyPrismaClientOptions = Omit<
-  PrismaClientOptions,
-  "__internal"
->;
+export interface FastifyPrismaClientOptions {
+  clientOptions: Omit<
+    PrismaClientOptions,
+    "__internal"
+  >,
+  customInstance?: PrismaClient
+}
 
 const prismaClient: FastifyPluginCallback<FastifyPrismaClientOptions> = async (
-  fastify,
+  fastify: FastifyInstance,
   options,
   next
 ) => {
@@ -17,7 +20,13 @@ const prismaClient: FastifyPluginCallback<FastifyPrismaClientOptions> = async (
     return next(new Error("fastify-prisma-client has been defined before"));
   }
 
-  const prisma = new PrismaClient(options);
+  let prisma: PrismaClient;
+
+  if (options.customInstance) {
+    prisma = options.customInstance
+  } else {
+    prisma = new PrismaClient(options.clientOptions);
+  }
 
   await prisma.$connect();
 
