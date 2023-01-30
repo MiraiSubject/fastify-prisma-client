@@ -1,7 +1,7 @@
 {
-  "name": "fastify-prisma-client",
-  "version": "5.0.0",
-  "description": "Prisma Plugin for Fastify",
+  "name": "@miraisubject/fastify-prisma-client",
+  "version": "5.0.1",
+  "description": "Prisma Plugin for Fastify supporting custom instances (for monorepos etc)",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "author": "Eren BALCI",
@@ -20,7 +20,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/balcieren/fastify-prisma-client"
+    "url": "git+https://github.com/MiraiSubject/fastify-prisma-client"
   },
   "keywords": [
     "prisma-client",
@@ -40,5 +40,8 @@
   "dependencies": {
     "@prisma/client": "^4.8.0",
     "fastify-plugin": "^4.5.0"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
   }
 }
